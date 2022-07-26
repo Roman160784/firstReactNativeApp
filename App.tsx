@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { ActivityIndicator, Alert, Button, StyleSheet, Text, View, Image, TextInput } from 'react-native';
+import { ActivityIndicator, Alert, Button, StyleSheet, Text, View, Image, TextInput, TouchableWithoutFeedback, TouchableOpacity, Keyboard } from 'react-native';
 
 export default function App() {
   
@@ -8,6 +8,10 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+
+      <TouchableWithoutFeedback style={{flex: 1}} onPress={() => {Keyboard.dismiss()}}>
+      <View>
+
       <Text>Open up App.tsx to start working on your app!</Text>
       <Button title='Push' onPress={() => {Alert.alert(value)}}/>
       <ActivityIndicator size="large" color="tomato" />
@@ -17,7 +21,12 @@ export default function App() {
        placeholder={'Email'} 
        value={value} 
        onChangeText={setValue}/>
-       
+
+      
+      </View>
+
+      </TouchableWithoutFeedback>
+
       <StatusBar style="auto" />
     </View>
   );
