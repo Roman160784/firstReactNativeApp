@@ -1,34 +1,54 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useCallback, useState } from 'react';
-import { ActivityIndicator, Alert, Button, StyleSheet, Text, View, Image, TextInput, 
-  TouchableWithoutFeedback, TouchableOpacity, Keyboard, FlatList } from 'react-native';
+import {
+  ActivityIndicator, Alert, Button, StyleSheet, Text, View, Image, TextInput,
+  TouchableWithoutFeedback, TouchableOpacity, Keyboard, FlatList, ListRenderItem, Dimensions
+} from 'react-native';
 
-const arrayData = new Array (100)
-.fill(null)
-.map((_, index) => ({
-  id: index + 1,
-  title: `Title ${index + 1}`
-}))
+
+type ArrayDataType = {
+  id: number
+  title: string
+  count: number
+}
+
+const {width, height} = Dimensions.get('screen')
+
+const WIDTH = width
+const HEIGHT = height
+
+const arrayData: ArrayDataType[] = new Array(100)
+  .fill(null)
+  .map((_, index) => ({
+    id: index + 1,
+    title: `Title ${index + 1}`,
+    count: (index + 1) * 5
+  }))
 
 export default function App() {
-  
-  const renderItem = useCallback(({item}) => (
-    <View>
-      <Text>{item.title}</Text>
+
+  const renderItem: ListRenderItem<ArrayDataType> = useCallback(({ item }) => (
+    <View style={styles.item}>
+      <Text style={styles.title}>{item.title}</Text>
+      <Text style={styles.price}>{`${item.count}$`}</Text>
     </View>
   ), [])
+
   const keyExtractor = useCallback((item, index) => `${item.title}.${index}`, [])
 
 
   return (
     <View style={styles.container}>
-      <Text>123123</Text>
-      <FlatList 
-      data={arrayData}
-      renderItem={renderItem}
-      keyExtractor={keyExtractor}
+
+      <FlatList
+        data={arrayData}
+        numColumns={2}
+        columnWrapperStyle={{ justifyContent: 'space-between' }}
+        contentContainerStyle={{ paddingHorizontal: 20 }}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
       />
-      <StatusBar style='auto'/>
+      <StatusBar style='auto' />
     </View>
   );
 }
@@ -39,5 +59,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     marginTop: 50,
   },
- 
+  item: {
+    width: (WIDTH - 20 * 2) /2-5,
+    height: (WIDTH - 20 * 2) /2-5,
+    marginVertical: 5,
+    backgroundColor: 'orange'
+  },
+  title: {
+    fontSize: 20,
+    
+  },
+  price: {
+    color: 'green',
+    backgroundColor: 'gold'
+  }
 });
